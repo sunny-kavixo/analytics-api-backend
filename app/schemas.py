@@ -1,8 +1,12 @@
 from datetime import datetime
-from pydantic import BaseModel, Field
+from typing import Annotated
+from pydantic import BaseModel, StringConstraints
+
+Identifier = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=100)]
+
 class EventCreate(BaseModel):
-    user_id: str = Field(min_length=1, max_length=100)
-    event_type: str = Field(min_length=1, max_length=100)
+    user_id: Identifier
+    event_type: Identifier
     value: float = 0
 class EventOut(EventCreate):
     id: int
